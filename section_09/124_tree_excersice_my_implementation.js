@@ -88,13 +88,18 @@ class BinarySearchTree {
     if(currentNode[LEFT_DIRECTION] === null && currentNode[RIGHT_DIRECTION] === null) {
       //Nodes without childen nodes
       
-      ancestor[ancestorDirection] = null;
+      if(ancestor !== null)
+        ancestor[ancestorDirection] = null;
+      else
+        this.root = null;
     
     } else if(currentNode[RIGHT_DIRECTION] !== null && currentNode[LEFT_DIRECTION] === null) {
       //Node with only right child
 
-      ancestor[ancestorDirection] = currentNode;
-    
+      if(ancestor !== null)
+        ancestor[ancestorDirection] = currentNode;
+      else
+        this.root = currentNode[RIGHT_DIRECTION];
     } else {
       //Nodes with RIGHT and LEFT childen nodes
       
@@ -106,8 +111,8 @@ class BinarySearchTree {
         // Maybe also remove nodeToDelete reference to its children?
       } else {
 
+        let previousReplacementNode = leftChild;
         let replacementNode = leftChild[RIGHT_DIRECTION];
-        let previousReplacementNode = replacementNode;
         while(replacementNode[RIGHT_DIRECTION] !== null) {
           previousReplacementNode = replacementNode;
           replacementNode = replacementNode[RIGHT_DIRECTION];
@@ -118,10 +123,14 @@ class BinarySearchTree {
         } else {
           previousReplacementNode[RIGHT_DIRECTION] = null;
         }
-        
-        ancestor[ancestorDirection] = replacementNode;
         replacementNode[LEFT_DIRECTION] = currentNode[LEFT_DIRECTION];
         replacementNode[RIGHT_DIRECTION] = currentNode[RIGHT_DIRECTION];
+
+        //Only do this if node to delete is not the root
+        if(ancestor !== null)
+          ancestor[ancestorDirection] = replacementNode;
+        else
+          this.root = replacementNode;
       }
     }
 
@@ -145,7 +154,7 @@ tree.insert(15.1)
 tree.insert(15.05)
 tree.insert(15.07)
 tree.insert(15.06)
-//tree.insert(15.06)
+tree.insert(15.06)
 tree.insert(24)
 tree.insert(26)
 tree.insert(25)
@@ -155,8 +164,8 @@ tree.remove(20)
 tree.remove(16)
 tree.remove(15.1)
 tree.remove(12)
-tree.remove(15.07)
 tree.remove(9)
+
 console.log(tree);
 //console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
 
