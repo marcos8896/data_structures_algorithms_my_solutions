@@ -13,6 +13,7 @@ class BinarySearchTree {
   constructor(){
     this.root = null;
   }
+
   insert(value){
     const newNode = new Node(value);
 
@@ -34,6 +35,7 @@ class BinarySearchTree {
     holdingPointer[nodeDirection] = newNode;
 
   }
+
   lookup(value){
     //Code here
     if (this.root === null) {
@@ -42,6 +44,8 @@ class BinarySearchTree {
 
     let currentNode = this.root;
     let holdingPointer;
+    let immediateAncestor = null;
+    let ancestorDirection = null;
     let nodeDirection;
     let found = false;
 
@@ -53,27 +57,108 @@ class BinarySearchTree {
       } else {
         nodeDirection = currentNode.value > value ? LEFT_DIRECTION : RIGHT_DIRECTION;
         currentNode = currentNode[nodeDirection];
+        immediateAncestor = holdingPointer;
+        ancestorDirection = nodeDirection;
       }
-
+      
     }
+    //console.log('immediateAncestor: ', immediateAncestor);
+    //console.log('ancestorDirection: ', ancestorDirection);
 
-    return found ? holdingPointer : null;
+    return found ? { 
+      foundNode: holdingPointer,
+      ancestor: immediateAncestor,
+      ancestorDirection,
+    } : null;
 
     
   }
-  // remove
+  
+  remove(value) {
+    const lookupResult = this.lookup(value);
+
+    // If node to delete was not found
+    if(lookupResult === null) {
+      return null;
+    }
+
+    const {ancestor, ancestorDirection, foundNode: nodeToDelete } = lookupResult;
+    const currentNode = nodeToDelete;
+
+    if(currentNode[LEFT_DIRECTION] === null && currentNode[RIGHT_DIRECTION] === null) {
+      //Nodes without childen nodes
+      
+      ancestor[ancestorDirection] = null;
+    
+    } else if(currentNode[RIGHT_DIRECTION] !== null && currentNode[LEFT_DIRECTION] === null) {
+      //Node with only right child
+
+      ancestor[ancestorDirection] = currentNode;
+    
+    } else {
+      //Nodes with RIGHT and LEFT childen nodes
+      
+      let leftChild = currentNode[LEFT_DIRECTION];
+
+      if(leftChild[RIGHT_DIRECTION] === null) {
+        ancestor[ancestorDirection] = leftChild;
+        leftChild[RIGHT_DIRECTION] = currentNode[RIGHT_DIRECTION];
+        // Maybe also remove nodeToDelete reference to its children?
+      } else {
+
+        let replacementNode = leftChild[RIGHT_DIRECTION];
+        let previousReplacementNode = replacementNode;
+        while(replacementNode[RIGHT_DIRECTION] !== null) {
+          previousReplacementNode = replacementNode;
+          replacementNode = replacementNode[RIGHT_DIRECTION];
+        }
+
+        if(replacementNode[LEFT_DIRECTION] !== null) {
+          previousReplacementNode[RIGHT_DIRECTION] = replacementNode[LEFT_DIRECTION];
+        } else {
+          previousReplacementNode[RIGHT_DIRECTION] = null;
+        }
+        
+        ancestor[ancestorDirection] = replacementNode;
+        replacementNode[LEFT_DIRECTION] = currentNode[LEFT_DIRECTION];
+        replacementNode[RIGHT_DIRECTION] = currentNode[RIGHT_DIRECTION];
+      }
+    }
+
+    return nodeToDelete;
+  }
 }
 
 const tree = new BinarySearchTree();
 tree.insert(9)
+tree.insert(5)
+tree.insert(3)
 tree.insert(4)
 tree.insert(6)
+tree.insert(27)
 tree.insert(20)
-tree.insert(170)
+tree.insert(16)
+tree.insert(13)
+tree.insert(12)
 tree.insert(15)
-tree.insert(1)
-console.log(JSON.stringify(traverse(tree.root), null, '  '))
-console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
+tree.insert(15.1)
+tree.insert(15.05)
+tree.insert(15.07)
+tree.insert(15.06)
+//tree.insert(15.06)
+tree.insert(24)
+tree.insert(26)
+tree.insert(25)
+tree.insert(26.1)
+tree.insert(3.9)
+tree.remove(20)
+tree.remove(16)
+tree.remove(15.1)
+tree.remove(12)
+tree.remove(15.07)
+tree.remove(9)
+console.log(tree);
+//console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
 
 //     9
 //  4     20
