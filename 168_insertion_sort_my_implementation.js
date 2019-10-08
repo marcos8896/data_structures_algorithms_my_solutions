@@ -6,15 +6,6 @@ function insertionSort(array) {
     return array;
   }
 
-  if(length === 2) {
-    if(array[0] > array[1]) {
-      const temp = array[0];
-      array[0] = array[1];
-      array[1] = temp;
-      return array;
-    }
-  }
-
   let alreadyPassedValues = 1;
   while(alreadyPassedValues < length) { //Check this
 
