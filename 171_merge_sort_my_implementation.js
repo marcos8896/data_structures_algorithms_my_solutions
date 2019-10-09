@@ -19,8 +19,6 @@ function mergeSort (array) {
 
 function merge(left, right){
   
-  if(left !== undefined && right !== undefined) {
-    
     const mergedArray = [];
     while(left.length !== 0 || right.length !== 0) {
 
@@ -38,7 +36,6 @@ function merge(left, right){
     }
 
     return mergedArray;
-  }
 
 }
 
