@@ -1,4 +1,4 @@
-const numbers = [12, 45, 1, 13, 3, 10, 8, 6, 23, 14];
+const numbers = [12, 45, 1, 13, 3, -6, 10, 8, 6, 23, 14, 100];
 
 function quickSort(array) {
 
@@ -6,8 +6,7 @@ function quickSort(array) {
     return array;
   }
 
-  let initialPivotPos = array.length - 1;
-  let pivotPosition = initialPivotPos;
+  let pivotPosition = array.length - 1;
   let backCounter = 0;
   
   while (pivotPosition > backCounter) {
@@ -20,10 +19,6 @@ function quickSort(array) {
       backCounter++;
      }
 
-  }
-
-  if (initialPivotPos === pivotPosition) {
-    return array;
   }
 
   const rightArray = array.splice(pivotPosition + 1);
