@@ -26,18 +26,21 @@ function quickSort(array) {
     return array;
   }
 
-  const rightArray = array.splice(pivotPosition);
+  const rightArray = array.splice(pivotPosition + 1);
+  const pivot = array.splice(pivotPosition, 1)[0];
   const leftArray = array.splice(0);
 
   return append(
     quickSort(leftArray),
+    pivot,
     quickSort(rightArray),
   )
 
 }
 
-function append(left, right) {
-  return [...left, ...right];
+function append(left, pivot, right) {
+  return [...left, pivot, ...right];
 }
 
 const result = quickSort(numbers);
+console.log('result: ', result);
