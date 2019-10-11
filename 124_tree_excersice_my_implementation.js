@@ -136,6 +136,25 @@ class BinarySearchTree {
 
     return nodeToDelete;
   }
+
+  breadthFirstSearch() {
+    const queue = [this.root];
+    const allElements = [];
+
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+      allElements.push(currentNode.value);
+      if(currentNode.left !== null)
+        queue.push(currentNode.left)
+
+      if(currentNode.right !== null)
+        queue.push(currentNode.right)
+  
+    }
+
+    return allElements;
+  }
+
 }
 
 const tree = new BinarySearchTree();
@@ -166,7 +185,8 @@ tree.remove(15.1)
 tree.remove(12)
 tree.remove(9)
 
-console.log(tree);
+//console.log(tree);
+console.log(tree.breadthFirstSearch());
 //console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
 
 //     9
