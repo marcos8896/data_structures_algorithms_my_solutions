@@ -155,38 +155,76 @@ class BinarySearchTree {
     return allElements;
   }
 
+  depthFirstSearchRecursive(currentNode) {
+    if(!currentNode.left && !currentNode.right) {
+      return currentNode.value;
+    }
+
+    if(currentNode.left && currentNode.right) {
+      return [currentNode.value, ...this.splitTreeDFS(currentNode.left, currentNode.right)];
+    }
+
+    if(currentNode.left) {
+      return [currentNode.value, this.depthFirstSearchRecursive(currentNode.left)];
+    }
+
+    if(currentNode.right) {
+      return [currentNode.value, this.depthFirstSearchRecursive(currentNode.right)];
+    }
+  }
+
+  splitTreeDFS(left, right) {
+    let resultLeft = this.depthFirstSearchRecursive(left);
+    let resultRight = this.depthFirstSearchRecursive(right);
+    return [
+      ...(Array.isArray(resultLeft) ? resultLeft : [resultLeft]), 
+      ...(Array.isArray(resultRight) ? resultRight : [resultRight]), 
+    ];
+  }
+
 }
 
 const tree = new BinarySearchTree();
-tree.insert(9)
-tree.insert(5)
-tree.insert(3)
-tree.insert(4)
-tree.insert(6)
-tree.insert(27)
-tree.insert(20)
-tree.insert(16)
-tree.insert(13)
-tree.insert(12)
-tree.insert(15)
-tree.insert(15.1)
-tree.insert(15.05)
-tree.insert(15.07)
-tree.insert(15.06)
-tree.insert(15.06)
-tree.insert(24)
-tree.insert(26)
-tree.insert(25)
-tree.insert(26.1)
-tree.insert(3.9)
-tree.remove(20)
-tree.remove(16)
-tree.remove(15.1)
-tree.remove(12)
-tree.remove(9)
+// tree.insert(9)
+// tree.insert(5)
+// tree.insert(3)
+// tree.insert(4)
+// tree.insert(6)
+// tree.insert(27)
+// tree.insert(20)
+// tree.insert(16)
+// tree.insert(13)
+// tree.insert(12)
+// tree.insert(15)
+// tree.insert(15.1)
+// tree.insert(15.05)
+// tree.insert(15.07)
+// tree.insert(15.06)
+// tree.insert(15.06)
+// tree.insert(24)
+// tree.insert(26)
+// tree.insert(25)
+// tree.insert(26.1)
+// tree.insert(3.9)
+// tree.remove(20)
+// tree.remove(16)
+// tree.remove(15.1)
+// tree.remove(12)
+// tree.remove(9)
 
 //console.log(tree);
-console.log(tree.breadthFirstSearch());
+tree.insert(9)
+tree.insert(4)
+tree.insert(6)
+tree.insert(20)
+tree.insert(170)
+tree.insert(15)
+tree.insert(1)
+tree.insert(171)
+
+
+console.log(tree.depthFirstSearchRecursive(tree.root));
+//console.log(tree.breadthFirstSearchRecursive(tree.root));
 //console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
 
 //     9
