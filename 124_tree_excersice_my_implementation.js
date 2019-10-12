@@ -238,6 +238,49 @@ class BinarySearchTree {
     
   }
 
+  DFSInorder(currentNode, list) {
+    if (currentNode.left) {
+      this.DFSInorder(currentNode.left, list);
+    }
+
+    list.push(currentNode.value);
+
+    if (currentNode.right) {
+      this.DFSInorder(currentNode.right, list);
+    }
+
+    return list;
+
+  }
+
+  DFSPreorder(currentNode, list) {
+    list.push(currentNode.value);
+    
+    if (currentNode.left) {
+      this.DFSPreorder(currentNode.left, list);
+    }
+
+    if (currentNode.right) {
+      this.DFSPreorder(currentNode.right, list);
+    }
+
+    return list;
+  }
+
+  DFSPostorder(currentNode, list) {
+    if (currentNode.left) {
+      this.DFSPostorder(currentNode.left, list);
+    }
+    
+    if (currentNode.right) {
+      this.DFSPostorder(currentNode.right, list);
+    }
+
+    list.push(currentNode.value);
+    
+    return list;
+  }
+
 }
 
 const tree = new BinarySearchTree();
