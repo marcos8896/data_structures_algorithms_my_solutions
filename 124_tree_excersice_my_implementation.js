@@ -199,49 +199,63 @@ class BinarySearchTree {
     ];
   }
 
+  getImmediateAncestorTwoNodeWithToQueues(first, second) {
+    
+    const valueToFind = (value, queue) => {
+      let currentNode = this.root;
+      while (currentNode !== null) {
+        queue.push(currentNode.value);
+        if (currentNode.value === value) {
+          return { node: currentNode, queue };
+        } else if (currentNode.value > value) {
+          currentNode = currentNode.left;
+        } else {
+          currentNode = currentNode.right;
+        }
+      }
+      return null;
+    }
+
+    const compareQueues = (firstQ, secondQ, firstValue, secondValue) => {
+      let previousEqual = firstQ[0];
+      
+      while(firstQ.length || secondQ.length) {
+        if(firstQ[1] === secondQ[1] && firstValue !== firstQ[1] && secondValue !== secondQ[1]) {
+          previousEqual = firstQ[1];
+          firstQ.shift();
+          secondQ.shift();
+        } else {
+          return previousEqual;
+        }
+      }
+
+    };
+
+    let firstNodeFound = valueToFind(first.value, []);
+    let secondNodeFound = valueToFind(second.value, []);
+
+    return compareQueues(firstNodeFound.queue, secondNodeFound.queue, first.value, second.value);
+    
+  }
+
 }
 
 const tree = new BinarySearchTree();
-// tree.insert(9)
-// tree.insert(5)
-// tree.insert(3)
-// tree.insert(4)
-// tree.insert(6)
-// tree.insert(27)
-// tree.insert(20)
-// tree.insert(16)
-// tree.insert(13)
-// tree.insert(12)
-// tree.insert(15)
-// tree.insert(15.1)
-// tree.insert(15.05)
-// tree.insert(15.07)
-// tree.insert(15.06)
-// tree.insert(15.06)
-// tree.insert(24)
-// tree.insert(26)
-// tree.insert(25)
-// tree.insert(26.1)
-// tree.insert(3.9)
-// tree.remove(20)
-// tree.remove(16)
-// tree.remove(15.1)
-// tree.remove(12)
-// tree.remove(9)
-
-//console.log(tree);
-tree.insert(9)
+tree.insert(10)
+tree.insert(7)
 tree.insert(4)
-tree.insert(6)
-tree.insert(20)
-tree.insert(170)
-tree.insert(15)
-tree.insert(1)
-tree.insert(171)
-
+tree.insert(3)
+tree.insert(5)
+tree.insert(4.5)
+tree.insert(9)
+tree.insert(11)
+tree.insert(16)
+tree.insert(14)
+tree.insert(17)
+console.log(tree.getImmediateAncestorTwoNodeWithToQueues(new Node(4.5), new Node(17)));
 
 //console.log(tree.depthFirstSearchRecursive(tree.root));
-console.log(tree.breadthFirstSearchRecursive([tree.root], []));
+//console.log(tree.breadthFirstSearchRecursive([tree.root], []));
 //console.log('lookup 1: ', JSON.stringify(tree.lookup(14), null, '  '))
 
 //     9
