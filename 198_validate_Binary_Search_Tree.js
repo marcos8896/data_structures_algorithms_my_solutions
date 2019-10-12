@@ -57,8 +57,6 @@ class BinarySearchTree {
         currentNode = currentNode[RIGHT_DIRECTION];
       }
     }
-    console.log('prevNode value:', prevNode.value);
-    console.log('prevDirection:', prevDirection);
     const node = new Node(value);
     prevNode[prevDirection] = node;
     return node;
